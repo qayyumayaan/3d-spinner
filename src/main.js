@@ -26,8 +26,6 @@ renderer.render( scene, camera );
 // instantiate a loader
 const loader = new OBJLoader();
 
-let rotationSpeed = 0.01;
-
 const container = new THREE.Group(); 
 
 // load a resource
@@ -76,16 +74,44 @@ scene.add(gridHelper)
 
 Array(200).fill().forEach(addStar)
 
+renderer.domElement.addEventListener('mousedown', onMouseDown, false);
+renderer.domElement.addEventListener('touchstart', onTouchStart, false);
 
-function toRotate() {
-    container.rotateY(.1);
+let rotationSpeed = 0.1;
+let isRotating = false;
+
+function onMouseDown(event) {
+    rotationSpeed += .1
+    event.preventDefault();
+    isRotating = true;
+}
+
+function onTouchStart(event) {
+    event.preventDefault();
+    if (event.touches.length === 1) {
+        rotateObject();
+    }
+}
+
+function rotateObject() {
+    container.rotateY(rotationSpeed);
+    rotationSpeed *= .99
+    console.log(rotationSpeed)
+    if (rotationSpeed < .001) {
+        rotationSpeed = 0
+        isRotating = false;
+    }
 }
 
 
 
 function animate() {
     requestAnimationFrame( animate );
-    toRotate();
+    // rotateObject();
+    // console.log(isRotating)
+    if (isRotating) {
+        rotateObject();
+    }
     renderer.render( scene, camera );
 }
 
