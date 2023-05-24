@@ -55,15 +55,6 @@ loader.load(
 );
 
 
-
-
-
-const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 )
-const material = new THREE.MeshStandardMaterial( { color: 0xFF6347 });
-const torus = new THREE.Mesh ( geometry, material );
-
-// scene.add(torus)
-
 const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5, 5, 5)
 
@@ -93,16 +84,12 @@ Array(200).fill().forEach(addStar)
 function animate() {
   requestAnimationFrame( animate );
 
-  torus.rotation.x += .01;
-  torus.rotation.y += .005;
-  torus.rotation.z += .01;
-//   controls.update();
-
-//   console.log(camera.position.x); // X-coordinate
-//     console.log(camera.position.y); // Y-coordinate
-//     console.log(camera.position.z); // Z-coordinate
 
   renderer.render( scene, camera );
 }
 
 animate()
+
+//   console.log(camera.position.x); // X-coordinate
+//     console.log(camera.position.y); // Y-coordinate
+//     console.log(camera.position.z); // Z-coordinate
