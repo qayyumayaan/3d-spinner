@@ -1,2 +1,2 @@
-# 3d-spinner
+# 3D Spinner
 3D Fidget Spinner. 
