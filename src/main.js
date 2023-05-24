@@ -32,7 +32,7 @@ const loader = new OBJLoader();
 const container = new THREE.Group(); 
 
 loader.load(
-    './src/assets/fidgetSpinnerInner.obj',
+    './src/fidgetSpinnerInner.obj',
     function (object) {
 
         const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
@@ -65,7 +65,7 @@ loader.load(
 
 
 loader.load(
-    './src/assets/fidgetSpinnerOuter.obj',
+    './src/fidgetSpinnerOuter.obj',
     function (object) {
 
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
