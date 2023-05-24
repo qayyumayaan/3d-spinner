@@ -9,8 +9,9 @@ import { addStar } from './stars';
 
 export const scene = new THREE.Scene();
 
+const c = -.6
+
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
-camera.rotation.set(-1.57,0,0);
 
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
@@ -18,7 +19,9 @@ const renderer = new THREE.WebGL1Renderer({
 
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.set(0, 10, 0);
+camera.position.set(0, 10, c);
+camera.rotation.set(-1.57,0,0);
+
 const controls = new OrbitControls(camera, renderer.domElement);
 
 renderer.render( scene, camera );
@@ -27,6 +30,7 @@ renderer.render( scene, camera );
 const loader = new OBJLoader();
 
 const container = new THREE.Group(); 
+
 
 // load a resource
 loader.load(
@@ -44,6 +48,17 @@ loader.load(
                 child.material = material;
             }
         });
+
+        const box = new THREE.Box3().setFromObject(object);
+
+        // Get the center point of the bounding box
+        const center = box.getCenter(new THREE.Vector3());
+
+        // Specify the desired center of rotation
+        const rotationCenter = new THREE.Vector3(0, 0, c); // Replace with your desired coordinates
+
+        // Translate the model to the desired center position
+        object.position.sub(center).add(rotationCenter);
 
         container.add(object);
         scene.add(container);
@@ -96,7 +111,7 @@ function onTouchStart(event) {
 function rotateObject() {
     container.rotateY(rotationSpeed);
     rotationSpeed *= .99
-    console.log(rotationSpeed)
+    // console.log(rotationSpeed)
     if (rotationSpeed < .001) {
         rotationSpeed = 0
         isRotating = false;
