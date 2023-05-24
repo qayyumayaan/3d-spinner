@@ -21,33 +21,37 @@ camera.position.set(0, 10, 0);
 
 renderer.render( scene, camera );
 
-
 // instantiate a loader
 const loader = new OBJLoader();
 
 // load a resource
 loader.load(
-	// resource URL
-	'src/assets/fidgetSpinner.obj',
-	// called when resource is loaded
-	function ( object ) {
+    // resource URL
+    'src/assets/fidgetSpinner.obj',
+    // called when resource is loaded
+    function (object) {
 
-        // object.scale.set(0.05, 0.05, 0.05);
-        scene.add( object );
+        // Create a material with the desired color
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
+        // Apply the material to all child meshes of the loaded object
+        object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.material = material;
+            }
+        });
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'An error happened' );
-
-	}
+        // Add the object to the scene
+        scene.add(object);
+    },
+    // called when loading is in progress
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    // called when loading has errors
+    function (error) {
+        console.log('An error happened');
+    }
 );
 
 
