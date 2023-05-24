@@ -9,7 +9,7 @@ import { addStar } from './stars';
 
 export const scene = new THREE.Scene();
 
-const c = -.6
+const c = -.63
 
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
 
@@ -31,18 +31,12 @@ const loader = new OBJLoader();
 
 const container = new THREE.Group(); 
 
-
-// load a resource
 loader.load(
-    // resource URL
-    'src/assets/fidgetSpinner.obj',
-    // called when resource is loaded
+    'src/assets/fidgetSpinnerInner.obj',
     function (object) {
 
-        // Create a material with the desired color
-        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
 
-        // Apply the material to all child meshes of the loaded object
         object.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.material = material;
@@ -51,24 +45,52 @@ loader.load(
 
         const box = new THREE.Box3().setFromObject(object);
 
-        // Get the center point of the bounding box
         const center = box.getCenter(new THREE.Vector3());
 
-        // Specify the desired center of rotation
-        const rotationCenter = new THREE.Vector3(0, 0, c); // Replace with your desired coordinates
+        const rotationCenter = new THREE.Vector3(0, 0, c); 
 
-        // Translate the model to the desired center position
         object.position.sub(center).add(rotationCenter);
 
         container.add(object);
         scene.add(container);
 
     },
-    // called when loading is in progress
     function (xhr) {
         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     },
-    // called when loading has errors
+    function (error) {
+        console.log('An error happened');
+    }
+);
+
+
+loader.load(
+    'src/assets/fidgetSpinnerOuter.obj',
+    function (object) {
+
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+        object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.material = material;
+            }
+        });
+
+        const box = new THREE.Box3().setFromObject(object);
+
+        const center = box.getCenter(new THREE.Vector3());
+
+        const rotationCenter = new THREE.Vector3(0, 0, c); 
+
+        object.position.sub(center).add(rotationCenter);
+
+        container.add(object);
+        scene.add(container);
+
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
     function (error) {
         console.log('An error happened');
     }
