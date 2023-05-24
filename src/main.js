@@ -1,11 +1,15 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 // need a scene, camera, renderer
+
+// https://threejs.org/editor/
 
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
+// camera.up.set(0,-1,0)
 
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
@@ -13,9 +17,40 @@ const renderer = new THREE.WebGL1Renderer({
 
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.setZ(30);
+camera.position.set(0, 10, 0);
 
 renderer.render( scene, camera );
+
+
+// instantiate a loader
+const loader = new OBJLoader();
+
+// load a resource
+loader.load(
+	// resource URL
+	'src/assets/fidgetSpinner.obj',
+	// called when resource is loaded
+	function ( object ) {
+
+        // object.scale.set(0.05, 0.05, 0.05);
+        scene.add( object );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+);
+
+
 
 
 
@@ -23,7 +58,7 @@ const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 )
 const material = new THREE.MeshStandardMaterial( { color: 0xFF6347 });
 const torus = new THREE.Mesh ( geometry, material );
 
-scene.add(torus)
+// scene.add(torus)
 
 const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5, 5, 5)
@@ -36,7 +71,7 @@ scene.add(pointLight, ambientLight)
 const gridHelper = new THREE.GridHelper(200, 50);
 scene.add(gridHelper)
 
-// const controls = new OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 
 function addStar() {
   const geometry = new THREE.SphereGeometry(.25, 24, 24);
@@ -59,6 +94,9 @@ function animate() {
   torus.rotation.z += .01;
 //   controls.update();
 
+//   console.log(camera.position.x); // X-coordinate
+//     console.log(camera.position.y); // Y-coordinate
+//     console.log(camera.position.z); // Z-coordinate
 
   renderer.render( scene, camera );
 }
