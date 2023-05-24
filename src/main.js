@@ -9,6 +9,7 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
+camera.rotation.set(-1.57,0,0);
 // camera.up.set(0,-1,0)
 
 const renderer = new THREE.WebGL1Renderer({
@@ -18,11 +19,17 @@ const renderer = new THREE.WebGL1Renderer({
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 camera.position.set(0, 10, 0);
+const controls = new OrbitControls(camera, renderer.domElement);
 
 renderer.render( scene, camera );
 
 // instantiate a loader
 const loader = new OBJLoader();
+
+let object;
+let rotationSpeed = 0.01;
+
+const container = new THREE.Group(); 
 
 // load a resource
 loader.load(
@@ -41,8 +48,9 @@ loader.load(
             }
         });
 
-        // Add the object to the scene
-        scene.add(object);
+        container.add(object);
+        scene.add(container);
+
     },
     // called when loading is in progress
     function (xhr) {
@@ -53,6 +61,13 @@ loader.load(
         console.log('An error happened');
     }
 );
+
+
+// Add event listeners for click and touch events
+// renderer.domElement.addEventListener('mousedown', onMouseDown, false);
+// renderer.domElement.addEventListener('touchstart', onTouchStart, false);
+
+let isRotating = false; // Flag to track rotation state
 
 
 const pointLight = new THREE.PointLight(0xffffff);
@@ -66,7 +81,6 @@ scene.add(pointLight, ambientLight)
 const gridHelper = new THREE.GridHelper(200, 50);
 scene.add(gridHelper)
 
-const controls = new OrbitControls(camera, renderer.domElement);
 
 function addStar() {
   const geometry = new THREE.SphereGeometry(.25, 24, 24);
@@ -84,7 +98,7 @@ Array(200).fill().forEach(addStar)
 function animate() {
   requestAnimationFrame( animate );
 
-
+  container.rotateY(.1);
   renderer.render( scene, camera );
 }
 
