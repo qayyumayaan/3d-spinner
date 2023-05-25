@@ -32,7 +32,7 @@ const loader = new OBJLoader();
 const container = new THREE.Group(); 
 
 loader.load(
-    './public/fidgetSpinnerInner.obj',
+    './fidgetSpinnerInner.obj',
     function (object) {
 
         const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
@@ -65,7 +65,7 @@ loader.load(
 
 
 loader.load(
-    './public/fidgetSpinnerOuter.obj',
+    './fidgetSpinnerOuter.obj',
     function (object) {
 
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -141,13 +141,13 @@ function rotateObject() {
 }
 
 
-
 function animate() {
     requestAnimationFrame( animate );
     // rotateObject();
     // console.log(isRotating)
     if (isRotating) {
         rotateObject();
+        console.log(rotationSpeed.toFixed(2));
     }
     renderer.render( scene, camera );
 }
