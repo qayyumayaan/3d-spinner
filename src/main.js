@@ -2,7 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { addStar } from './stars';
+import { addStar } from './stars.js';
 // need a scene, camera, renderer
 
 // https://threejs.org/editor/
@@ -32,7 +32,7 @@ const loader = new OBJLoader();
 const container = new THREE.Group(); 
 
 loader.load(
-    './src/fidgetSpinnerInner.obj',
+    './fidgetSpinnerInner.obj',
     function (object) {
 
         const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
@@ -65,7 +65,7 @@ loader.load(
 
 
 loader.load(
-    './src/fidgetSpinnerOuter.obj',
+    './fidgetSpinnerOuter.obj',
     function (object) {
 
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
