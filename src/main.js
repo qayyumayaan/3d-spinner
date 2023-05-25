@@ -16,13 +16,15 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
 });
+camera.position.set(0, 10, c);
+camera.rotation.set(-2.6, 0, 3.1415);
 
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
-camera.position.set(0, 10, c);
-camera.rotation.set(-1.57,0,0);
 
 const controls = new OrbitControls(camera, renderer.domElement);
+
+controls.update()
 
 renderer.render( scene, camera );
 
@@ -143,8 +145,6 @@ function rotateObject() {
 
 function animate() {
     requestAnimationFrame( animate );
-    // rotateObject();
-    // console.log(isRotating)
     if (isRotating) {
         rotateObject();
         console.log(rotationSpeed.toFixed(2));
@@ -154,6 +154,9 @@ function animate() {
 
 animate()
 
-//   console.log(camera.position.x); // X-coordinate
-//     console.log(camera.position.y); // Y-coordinate
-//     console.log(camera.position.z); // Z-coordinate
+// console.log(camera.position.x); // X-coordinate
+// console.log(camera.position.y); // Y-coordinate
+// console.log(camera.position.z); // Z-coordinate
+// console.log(camera.rotation.x)
+// console.log(camera.rotation.y)
+// console.log(camera.rotation.z)
