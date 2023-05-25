@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { addStar } from './stars.js';
 // need a scene, camera, renderer
 
@@ -97,6 +98,55 @@ loader.load(
         console.log('An error happened');
     }
 );
+
+
+
+var mtlLoader = new MTLLoader();
+const roomContainer = new THREE.Group(); 
+
+
+loader.load(
+    './InteriorTest.obj',
+    function (object) {
+
+        const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
+
+        object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.material = material;
+            }
+        });
+
+        object.scale.set(10, 10, 10);
+        object.position.y = -50; // Adjust the value as per your desired shift
+
+        roomContainer.add(object);
+        scene.add(roomContainer);
+
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function (error) {
+        console.log('An error happened');
+    }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const pointLight = new THREE.PointLight(0xffffff);
