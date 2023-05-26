@@ -114,8 +114,6 @@ scene.add(gridHelper)
 
 Array(200).fill().forEach(addStar)
 
-renderer.domElement.addEventListener('mousedown', onMouseDown, false);
-renderer.domElement.addEventListener('touchstart', onTouchStart, false);
 
 let rotationSpeed = 0.1;
 let isRotating = false;
@@ -129,9 +127,19 @@ function onMouseDown(event) {
 function onTouchStart(event) {
     event.preventDefault();
     if (event.touches.length === 1) {
-        rotateObject();
+        rotationSpeed += .1;
+        isRotating = true;
     }
 }
+
+function onTouchEnd(event) {
+    event.preventDefault();
+    isRotating = false;
+}
+
+renderer.domElement.addEventListener('mousedown', onMouseDown, false);
+renderer.domElement.addEventListener('touchstart', onTouchStart, false);
+renderer.domElement.addEventListener('touchend', onTouchEnd, false);
 
 function rotateObject() {
     container.rotateY(rotationSpeed);
