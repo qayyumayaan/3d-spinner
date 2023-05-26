@@ -100,59 +100,6 @@ loader.load(
 );
 
 
-
-// var mtlLoader = new MTLLoader();
-const roomContainer = new THREE.Group(); 
-
-const roomLoader = new GLTFLoader();
-
-
-roomLoader.load(
-    './InteriorTest.glb',
-    function (object) {
-
-        scene.add( object.scene );
-
-        // const material = new THREE.MeshBasicMaterial({ color: 0x994499 });
-
-        // object.traverse(function (child) {
-        //     if (child instanceof THREE.Mesh) {
-        //         child.material = material;
-        //     }
-        // });
-
-        object.scale.set(10, 10, 10);
-        object.position.y = -50; // Adjust the value as per your desired shift
-
-        roomContainer.add(object);
-        scene.add(roomContainer);
-
-    },
-    function (xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    },
-    function (error) {
-        console.log('An error happened');
-    }
-);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const pointLight = new THREE.PointLight(0xffffff);
 pointLight.position.set(5, 5, 5)
 
