@@ -2,7 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { addStar } from './stars.js';
 // need a scene, camera, renderer
 
@@ -12,7 +12,7 @@ export const scene = new THREE.Scene();
 
 const c = -.63
 
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000 );
 
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
@@ -101,21 +101,25 @@ loader.load(
 
 
 
-var mtlLoader = new MTLLoader();
+// var mtlLoader = new MTLLoader();
 const roomContainer = new THREE.Group(); 
 
+const roomLoader = new GLTFLoader();
 
-loader.load(
-    './InteriorTest.obj',
+
+roomLoader.load(
+    './InteriorTest.glb',
     function (object) {
 
-        const material = new THREE.MeshBasicMaterial({ color: 0x999999 });
+        scene.add( object.scene );
 
-        object.traverse(function (child) {
-            if (child instanceof THREE.Mesh) {
-                child.material = material;
-            }
-        });
+        // const material = new THREE.MeshBasicMaterial({ color: 0x994499 });
+
+        // object.traverse(function (child) {
+        //     if (child instanceof THREE.Mesh) {
+        //         child.material = material;
+        //     }
+        // });
 
         object.scale.set(10, 10, 10);
         object.position.y = -50; // Adjust the value as per your desired shift
