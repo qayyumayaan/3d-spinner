@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { addStar } from './stars.js';
+import { adjustVolume, playAudioClip } from './audio.js';
 // need a scene, camera, renderer
 
 // https://threejs.org/editor/
@@ -122,14 +123,16 @@ function onMouseDown(event) {
     rotationSpeed += .1
     event.preventDefault();
     isRotating = true;
+    playAudioClip();
 }
 
 function onTouchStart(event) {
     event.preventDefault();
     if (event.touches.length === 1) {
-        rotationSpeed += .1;
+        rotationSpeed += .1
         isRotating = true;
     }
+    playAudioClip();
 }
 
 renderer.domElement.addEventListener('mousedown', onMouseDown, false);
@@ -143,6 +146,7 @@ function rotateObject() {
         rotationSpeed = 0
         isRotating = false;
     }
+    adjustVolume(rotationSpeed);
 }
 
 
