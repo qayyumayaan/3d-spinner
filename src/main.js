@@ -132,14 +132,8 @@ function onTouchStart(event) {
     }
 }
 
-function onTouchEnd(event) {
-    event.preventDefault();
-    isRotating = false;
-}
-
 renderer.domElement.addEventListener('mousedown', onMouseDown, false);
 renderer.domElement.addEventListener('touchstart', onTouchStart, false);
-renderer.domElement.addEventListener('touchend', onTouchEnd, false);
 
 function rotateObject() {
     container.rotateY(rotationSpeed);
